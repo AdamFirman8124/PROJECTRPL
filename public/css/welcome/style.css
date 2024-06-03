@@ -44,13 +44,11 @@
     filter: blur(30px);
    }
 
-   .box:hover::before,
-   .box:hover::after {
+   .box:hover::before, .box:hover::after {
     transform: skewX(0deg) scaleX(1.3);
    }
 
-   .box::before,
-   .box::after {
+   .box::before, .box::after {
     background: linear-gradient(315deg, #ffbc00, #ff0058);
    }
 
@@ -102,7 +100,7 @@
    .box .content {
     position: relative;
     width: 100px;
-    height: 170px;
+    height: 180px;
     padding: 15px 30px;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
