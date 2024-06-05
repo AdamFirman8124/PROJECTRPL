@@ -1,93 +1,183 @@
-<!DOCTYPE html>
-<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Utama</title>
-    <link rel="stylesheet" href="{{ asset('css/welcome/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/home/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/calendar/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/user/contentwarnetcafe.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/products/style.css') }}">
 </head>
+
 <body>
-    <div class="container">
-        <div class="left-sidebar">
+    <header>
+        <h1>Header</h1>
+    </header>
+    <div class="content-wrapper">
+        <aside>
             <div class="container-start">
                 <div class="box">
                     <div class="content">
-                        <h2>{{ __('Selamat Datang, ') . Auth::user()->name . '!' }}
+                        <h2>Selamat Datang, {{ Auth::user()->name }}!
                             <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                                 @csrf
-                                <button type="submit" class="welcome-logout-button">{{ __('Logout') }}</button>
+                                <button type="submit" class="logout-button" style="color: white; background-color: red">Logout</button>
                             </form>
                         </h2>
                     </div>
                 </div>
+            </div>
             <div class="cardClock">
                 <p class="time-text"><span id="time-now"></span><span class="time-sub-text" id="am-pm"></span></p>
                 <p class="day-text" id="date-now"></p>
             </div>
-        </div>
-        <div class="main-content">
-            <div class="content-header">
-                <div style="float: left; width: 50%;">
-                    <h3>Paket Warnet yang Tersedia</h3>
+            <div class="button-wrapper">
+                <button id="addProductButton" class="btn btn-primary small-btn">Tambah Produk Warnet</button>
+                <button id="addCafeProductButton" class="btn btn-primary small-btn">Tambah Produk Cafe</button>
+            </div>
+        </aside>
+        <main>
+            <div class="products-container">
+                <div class="products-column">
+                    <h2>Produk Warnet</h2>
+                    @foreach($products as $product)
+                        <div class="main-content">
+                            <div class="main-title">{{ $product->name }}</div>
+                            <div class="main-price">${{ $product->price }}</div>
+                            <div class="main-description">{{ $product->description }}</div>
+                            <button class="main-button">Buy</button>
+                        </div>
+                    @endforeach
                 </div>
-                <div style="float: right; width: 50%;">
-                    <h3>Paket Cafe yang Tersedia</h3>
+                <div class="products-column">
+                    <h2>Produk Cafe</h2>
+                    @foreach($cafeProducts as $cafeProduct)
+                        <div class="main-content">
+                            <div class="main-title">{{ $cafeProduct->name }}</div>
+                            <div class="main-price">${{ $cafeProduct->price }}</div>
+                            <div class="main-description">{{ $cafeProduct->description }}</div>
+                            <button class="main-button">Buy</button>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-            <div style="clear: both;"></div>
-            <div class="card" style="float: left; width: 50%;">
-                <div class="card-img"></div>
-                <div class="card-info">
-                    <p class="text-title">Product title</p>
-                    <p class="text-body">Product description and details</p>
-                </div>
-                <div class="card-footer">
-                    <span class="text-title">$499.49</span>
-                    <div class="card-button">
-                        <svg class="svg-icon" viewBox="0 0 20 20">
-                            <path d="M17.72,5.011H8.026c-0.271,0-0.49,0.219-0.49,0.489c0,0.271,0.219,0.489,0.49,0.489h8.962l-1.979,4.773H6.763L4.935,5.343C4.926,5.316,4.897,5.309,4.884,5.286c-0.011-0.024,0-0.051-0.017-0.074C4.833,5.166,4.025,4.081,2.33,3.908C2.068,3.883,1.822,4.075,1.795,4.344C1.767,4.612,1.962,4.853,2.231,4.88c1.143,0.118,1.703,0.738,1.808,0.866l1.91,5.661c0.066,0.199,0.252,0.333,0.463,0.333h8.924c0.116,0,0.22-0.053,0.308-0.128c0.027-0.023,0.042-0.048,0.063-0.076c0.026-0.034,0.063-0.058,0.08-0.099l2.384-5.75c0.062-0.151,0.046-0.323-0.045-0.458C18.036,5.092,17.883,5.011,17.72,5.011z"></path>
-                            <path d="M8.251,12.386c-1.023,0-1.856,0.834-1.856,1.856s0.833,1.853,1.856,1.853c1.021,0,1.853-0.83,1.853-1.853S9.273,12.386,8.251,12.386z M8.251,15.116c-0.484,0-0.877-0.393-0.877-0.874c0-0.484,0.394-0.878,0.877-0.878c0.482,0,0.875,0.394,0.875,0.878C9.126,14.724,8.733,15.116,8.251,15.116z"></path>
-                            <path d="M13.972,12.386c-1.022,0-1.855,0.834-1.855,1.856s0.833,1.853,1.855,1.853s1.854-0.83,1.854-1.853S14.994,12.386,13.972,12.386z M13.972,15.116c-0.484,0-0.878-0.393-0.878-0.874c0-0.484,0.394-0.878,0.878-0.878c0.482,0,0.875,0.394,0.875,0.878C14.847,14.724,14.454,15.116,13.972,15.116z"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <div class="card" style="float: right; width: 50%;">
-                <div class="card-img"></div>
-                <div class="card-info">
-                    <p class="text-title">Product title</p>
-                    <p class="text-body">Product description and details</p>
-                </div>
-                <div class="card-footer">
-                    <span class="text-title">$499.49</span>
-                    <div class="card-button">
-                        <svg class="svg-icon" viewBox="0 0 20 20">
-                            <path d="M17.72,5.011H8.026c-0.271,0-0.49,0.219-0.49,0.489c0,0.271,0.219,0.489,0.49,0.489h8.962l-1.979,4.773H6.763L4.935,5.343C4.926,5.316,4.897,5.309,4.884,5.286c-0.011-0.024,0-0.051-0.017-0.074C4.833,5.166,4.025,4.081,2.33,3.908C2.068,3.883,1.822,4.075,1.795,4.344C1.767,4.612,1.962,4.853,2.231,4.88c1.143,0.118,1.703,0.738,1.808,0.866l1.91,5.661c0.066,0.199,0.252,0.333,0.463,0.333h8.924c0.116,0,0.22-0.053,0.308-0.128c0.027-0.023,0.042-0.048,0.063-0.076c0.026-0.034,0.063-0.058,0.08-0.099l2.384-5.75c0.062-0.151,0.046-0.323-0.045-0.458C18.036,5.092,17.883,5.011,17.72,5.011z"></path>
-                            <path d="M8.251,12.386c-1.023,0-1.856,0.834-1.856,1.856s0.833,1.853,1.856,1.853c1.021,0,1.853-0.83,1.853-1.853S9.273,12.386,8.251,12.386z M8.251,15.116c-0.484,0-0.877-0.393-0.877-0.874c0-0.484,0.394-0.878,0.877-0.878c0.482,0,0.875,0.394,0.875,0.878C9.126,14.724,8.733,15.116,8.251,15.116z"></path>
-                            <path d="M13.972,12.386c-1.022,0-1.855,0.834-1.855,1.856s0.833,1.853,1.855,1.853s1.854-0.83,1.854-1.853S14.994,12.386,13.972,12.386z M13.972,15.116c-0.484,0-0.878-0.393-0.878-0.874c0-0.484,0.394-0.878,0.878-0.878c0.482,0,0.875,0.394,0.875,0.878C14.847,14.724,14.454,15.116,13.972,15.116z"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script>
-                function updateTime() {
-                    const now = new Date();
-                    const hours = now.getHours();
-                    const minutes = now.getMinutes();
-                    const ampm = hours >= 12 ? 'PM' : 'AM';
-                    const strTime = ((hours % 12) || 12) + ':' + (minutes < 10 ? '0' + minutes : minutes);
-                    const day = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                    
-                    document.getElementById('time-now').textContent = strTime;
-                    document.getElementById('am-pm').textContent = ampm;
-                    document.getElementById('date-now').textContent = day;
-                }
-                setInterval(updateTime, 1000);
-            updateTime();
-        </script>
-    </body>
-</html>
+        </main>
+        
+    </div>
+    <footer>
+        <p>Footer</p>
+    </footer>
 
+    <!-- Modal -->
+    <div id="addProductModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Tambah Produk Warnet</h2>
+            <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
+                @csrf
+                <label for="productName">Nama:</label>
+                <input type="text" id="productName" name="productName" required><br><br>
+                <label for="productDescription">Deskripsi:</label>
+                <textarea id="productDescription" name="productDescription" required></textarea><br><br>
+                <label for="productPrice">Harga:</label>
+                <input type="number" id="productPrice" name="productPrice" required><br><br>
+                <label for="productImage">Gambar:</label>
+                <input type="file" id="productImage" name="productImage" required><br><br>
+                <button type="submit" class="save-button">Simpan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Tambah Produk Cafe -->
+    <div id="addCafeProductModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Tambah Produk Cafe</h2>
+            <form method="POST" action="{{ route('cafeProducts.store') }}" enctype="multipart/form-data" onsubmit="formatPriceBeforeSubmit()">
+                @csrf
+                <label for="cafeProductName">Nama:</label>
+                <input type="text" id="cafeProductName" name="cafeProductName" required><br><br>
+                <label for="cafeProductDescription">Deskripsi:</label>
+                <textarea id="cafeProductDescription" name="cafeProductDescription" required></textarea><br><br>
+                <label for="cafeProductPrice">Harga:</label>
+                <input type="number" id="cafeProductPrice" name="cafeProductPrice" required step="0.01"><br><br>
+                <label for="cafeProductImage">Gambar:</label>
+                <input type="file" id="cafeProductImage" name="cafeProductImage" required><br><br>
+                <button type="submit" class="save-button">Simpan</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const strTime = ((hours % 12) || 12) + ':' + (minutes < 10 ? '0' + minutes : minutes);
+            const day = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            
+            document.getElementById('time-now').textContent = strTime;
+            document.getElementById('am-pm').textContent = ampm;
+            document.getElementById('date-now').textContent = day;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+    <script>
+        var modal = document.getElementById("addProductModal");
+        var btn = document.getElementById("addProductButton");
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <script>
+        var cafeModal = document.getElementById("addCafeProductModal");
+        var cafeBtn = document.getElementById("addCafeProductButton");
+        var cafeSpan = document.getElementsByClassName("close")[1]; // Assuming the second close button
+
+        cafeBtn.onclick = function() {
+            cafeModal.style.display = "block";
+        }
+
+        cafeSpan.onclick = function() {
+            cafeModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == cafeModal) {
+                cafeModal.style.display = "none";
+            }
+        }
+    </script>
+    <script>
+        document.getElementById('cafeProductPrice').addEventListener('input', function (e) {
+            var value = e.target.value.replace(/[^,\d]/g, '').toString();
+            var split = value.split(',');
+            var sisa = split[0].length % 3;
+            var rupiah = split[0].substr(0, sisa);
+            var ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                var separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+            e.target.value = rupiah;
+        });
+
+        function formatPriceBeforeSubmit() {
+            var priceInput = document.getElementById('cafeProductPrice');
+            priceInput.value = priceInput.value.replace(/\./g, '').replace(/,/g, '.');
+        }
+    </script>
+</body>

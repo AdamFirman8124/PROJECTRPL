@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\CafeProduct; // Menambahkan use statement untuk model CafeProduct
 
 class HomeController extends Controller
 {
@@ -23,6 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $products = Product::all();
+        $cafeProducts = CafeProduct::all(); // Tambahkan ini
+        return view('home', compact('products', 'cafeProducts')); // Tambahkan 'cafeProducts'
     }
 }
