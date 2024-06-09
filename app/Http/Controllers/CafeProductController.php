@@ -10,8 +10,9 @@ class CafeProductController extends Controller
 {
     public function store(Request $request)
     {
+        Log::info('Memulai proses penyimpanan produk cafe');
         try {
-            Log::info('Store method called');
+            Log::info('Metode store dipanggil');
 
             // Validasi input
             $request->validate([
@@ -21,13 +22,13 @@ class CafeProductController extends Controller
                 'cafeProductImage' => 'nullable|image|max:2048',
             ]);
 
-            Log::info('Validation passed');
+            Log::info('Validasi berhasil');
 
             // Penanganan file gambar
             $imagePath = null;
             if ($request->hasFile('cafeProductImage')) {
                 $imagePath = $request->file('cafeProductImage')->store('cafe_products', 'public');
-                Log::info('Image uploaded', ['path' => $imagePath]);
+                Log::info('Gambar diunggah', ['path' => $imagePath]);
             }
 
             // Penyimpanan data
@@ -39,12 +40,33 @@ class CafeProductController extends Controller
             ]);
 
             $cafeProduct->save();
-            Log::info('Product saved', ['product' => $cafeProduct]);
+            Log::info('Produk disimpan', ['product' => $cafeProduct]);
 
             return redirect()->back()->with('success', 'Produk cafe berhasil ditambahkan!');
         } catch (\Exception $e) {
-            Log::error('Error storing product', ['error' => $e->getMessage()]);
+            Log::error('Kesalahan saat menyimpan produk', ['error' => $e->getMessage()]);
             return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
         }
     }
+
+    public function index()
+    {
+        Log::info('Memuat semua produk cafe');
+        $cafeProducts = CafeProduct::all();
+        return view('cafe.index', compact('cafeProducts'));
+    }
+
+    public function destroy($id)
+    {
+        Log::info('Memulai proses penghapusan produk cafe', ['product_id' => $id]);
+        $cafeProduct = CafeProduct::find($id);
+        if ($cafeProduct) {
+            $cafeProduct->delete();
+            Log::info('Produk cafe berhasil dihapus', ['product_id' => $id]);
+            return redirect()->back()->with('success', 'Produk cafe berhasil dihapus.');
+        }
+        Log::warning('Produk cafe tidak ditemukan', ['product_id' => $id]);
+        return redirect()->back()->with('error', 'Produk cafe tidak ditemukan.');
+    }
 }
+

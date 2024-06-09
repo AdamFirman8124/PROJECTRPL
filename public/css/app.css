@@ -1,0 +1,10 @@
+/* Sembunyikan scrollbar tetapi tetap memungkinkan pengguliran */
+html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+
+html::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* Sembunyikan latar belakang scrollbar */
+}

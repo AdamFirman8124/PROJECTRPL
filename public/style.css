@@ -1,0 +1,11 @@
+.card-body .card-title {
+    margin-bottom: 10px; /* Jarak antara judul dan deskripsi */
+}
+
+.card-body .card-text {
+    margin-bottom: 10px; /* Jarak antara teks dan elemen lainnya */
+}
+
+.card {
+    margin-bottom: 20px; /* Jarak antar card */
+}

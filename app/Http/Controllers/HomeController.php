@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\CafeProduct; // Menambahkan use statement untuk model CafeProduct
+use App\Models\Product; // Pastikan menggunakan model yang tepat
+use App\Models\CafeProduct; // Menggunakan model CafeProduct
+use Illuminate\Support\Facades\Log; // Tambahkan library untuk logging
 
 class HomeController extends Controller
 {
@@ -15,7 +16,9 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // Hapus atau komentari baris ini jika tidak ingin memerlukan autentikasi untuk index
+        $this->middleware('auth')->except('index');
+        Log::info('HomeController diinisialisasi'); // Log informasi inisialisasi controller
     }
 
     /**
@@ -25,8 +28,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        $cafeProducts = CafeProduct::all(); // Tambahkan ini
-        return view('home', compact('products', 'cafeProducts')); // Tambahkan 'cafeProducts'
+        $products = Product::all(); // Mengambil semua produk dari database
+        Log::info('Semua produk diambil dari database'); // Log informasi pengambilan produk
+
+        $cafeProducts = CafeProduct::all(); // Mengambil semua produk cafe dari database
+        Log::info('Semua produk cafe diambil dari database'); // Log informasi pengambilan produk cafe
+
+        return view('home', compact('products', 'cafeProducts')); // Mengirimkan data ke view dengan produk dan produk cafe
+        Log::info('Data dikirim ke view home'); // Log informasi pengiriman data ke view
     }
 }
