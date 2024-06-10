@@ -6,6 +6,9 @@
             background-color: #333; /* Warna hitam yang lebih terang dari hitam pekat */
             color: #fff; /* Warna teks putih */
         }
+        .is-invalid {
+            border-color: #dc3545; /* Warna merah untuk border jika ada kesalahan */
+        }
     </style>
 </head>
 
@@ -29,11 +32,21 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required>
+                                @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" required>
+                                @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Log In</button>
@@ -49,3 +62,4 @@
     </div>
 </div>
 </body>
+
