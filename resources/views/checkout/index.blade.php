@@ -3,15 +3,23 @@
 @section('content')
 <div class="container mt-5">
     <h2 class="text-center mb-4">Detail Checkout Produk</h2>
+    <?php $totalPrice = 0; ?> <!-- Deklarasi di awal untuk memastikan variabel ini selalu terdefinisi -->
     @if(session('cart') && count(session('cart')) > 0)
         <form id="purchaseForm" action="{{ route('cart.purchase') }}" method="POST">
             @csrf
             @foreach(session('cart') as $id => $details)
+                <input type="hidden" name="quantity[{{ $id }}]" value="{{ $details['quantity'] }}">
                 <div class="card mb-3">
                     <div class="card-header">{{ $details['name'] }}</div>
                     <div class="card-body">
-                        <p class="card-text">Jumlah: {{ $details['quantity'] }}</p>
-                        <p class="card-text">Harga: Rp{{ number_format($details['price'], 2, ',', '.') }}</p>
+                        <p class="card-text">Jumlah:
+                            <button type="button" class="btn btn-secondary btn-sm update-cart" data-id="{{ $id }}" data-action="decrease">-</button>
+                            <span class="mx-2">{{ $details['quantity'] }}</span>
+                            <button type="button" class="btn btn-secondary btn-sm update-cart" data-id="{{ $id }}" data-action="increase">+</button>
+                        </p>
+                        <p class="card-text">Harga per unit: Rp{{ number_format($details['price'], 2, ',', '.') }}</p>
+                        <p class="card-text">Total: Rp{{ number_format($details['quantity'] * $details['price'], 2, ',', '.') }}</p>
+                        <?php $totalPrice += $details['quantity'] * $details['price']; ?>
                         <!-- Input untuk catatan -->
                         <div class="form-group mb-2">
                             <label for="note-{{ $id }}" class="sr-only">Catatan</label>
@@ -25,12 +33,14 @@
                     </div>
                 </div>
             @endforeach
-            <!-- Tombol untuk lanjut ke pembayaran atau menambah produk lain -->
             <div class="d-flex justify-content-between mb-4">
-                <a href="{{ route('products.index') }}" class="btn btn-primary">Tambah Produk Lain</a>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmCheckoutModal">
-                    Lanjut ke Pembayaran
-                </button>
+                <h4>Total Harga: Rp{{ number_format($totalPrice, 2, ',', '.') }}</h4>
+                <div>
+                    <a href="{{ route('products.index') }}" class="btn btn-primary">Tambah Produk Lain</a>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmCheckoutModal">
+                        Lanjut ke Pembayaran
+                    </button>
+                </div>
             </div>
         </form>
     @else
@@ -47,12 +57,19 @@
                         <span aria-hidden="true" style="color: white;">&times;</span>
                     </button>
                 </div>
+                <img src="{{ asset('images/Pembayaran BCA.jpg') }}" alt="Pembayaran" class="img-fluid">
                 <div class="modal-body" style="color: white;">
-                    Apakah Anda yakin ingin melanjutkan pembelian?
+                    Silahkan Melakukan Pembayaran Terlebih Dahulu
+                    <?php
+                    $referralCode = rand(1, 999); // Menghasilkan kode referral acak antara 1 dan 999
+                    $totalWithReferral = $totalPrice + $referralCode; // Menambahkan kode referral ke total harga
+                    ?>
+                    <p>Total yang harus dibayar: Rp{{ number_format($totalWithReferral, 2, ',', '.') }} </p>
+                    <p>Kode Referral: REF{{ $referralCode }}</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary" id="confirmPurchase">Konfirmasi</button>
+                    <button type="button" class="btn btn-primary" id="confirmPurchase">Selesai Bayar</button>
                 </div>
             </div>
         </div>
@@ -86,6 +103,29 @@
                 },
                 error: function(xhr) {
                     // Tidak ada tindakan pada error
+                }
+            });
+        });
+
+        // Fungsi untuk menghandle klik tombol tambah/kurang
+        $('.update-cart').click(function(event) {
+            event.preventDefault();
+            var productId = $(this).data('id');
+            var action = $(this).data('action');
+            $.ajax({
+                url: '{{ route('cart.update', '') }}/' + productId,
+                type: 'PATCH',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    action: action
+                },
+                success: function(response) {
+                    if (response.success) {
+                        location.reload(); // Ini akan memuat ulang halaman, memastikan data terbaru ditampilkan
+                    }
+                },
+                error: function(xhr) {
+                    alert('Error: ' + xhr.responseText); // Menampilkan error jika ada
                 }
             });
         });

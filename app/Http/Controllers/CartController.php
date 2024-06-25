@@ -30,4 +30,20 @@ class CartController extends Controller
             ]);
         }
     }
+
+    public function update(Request $request, $id)
+    {
+        $cart = session()->get('cart', []);
+        if (isset($cart[$id])) {
+            if ($request->action == 'increase') {
+                $cart[$id]['quantity']++;
+            } elseif ($request->action == 'decrease' && $cart[$id]['quantity'] > 1) {
+                $cart[$id]['quantity']--;
+            }
+            session()->put('cart', $cart);
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 404);
+    }
 }
+

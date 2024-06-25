@@ -6,12 +6,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CafeProductController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CheckoutController; 
-use App\Http\Controllers\CartController; 
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CartController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', [HomeController::class, 'index'])->name('welcome');
 
 Auth::routes();
 
@@ -59,3 +57,6 @@ Route::post('/cart/add/{id}', [ProductController::class, 'addToCart'])->middlewa
 
 // Tambahkan route untuk menampilkan keranjang
 Route::get('/cart', [CartController::class, 'index'])->middleware('auth')->name('cart.index');
+
+// Tambahkan route untuk mengupdate item di keranjang
+Route::patch('/cart/update/{id}', [CartController::class, 'update'])->middleware('auth')->name('cart.update');

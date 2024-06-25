@@ -28,13 +28,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = Product::all(); // Mengambil semua produk dari database
-        Log::info('Semua produk diambil dari database'); // Log informasi pengambilan produk
+        $cafeProducts = CafeProduct::all(); // Mengambil semua produk cafe
+        $warnetProducts = Product::all(); // Mengambil semua produk warnet
 
-        $cafeProducts = CafeProduct::all(); // Mengambil semua produk cafe dari database
-        Log::info('Semua produk cafe diambil dari database'); // Log informasi pengambilan produk cafe
-
-        return view('home', compact('products', 'cafeProducts')); // Mengirimkan data ke view dengan produk dan produk cafe
-        Log::info('Data dikirim ke view home'); // Log informasi pengiriman data ke view
+        return view('welcome', compact('cafeProducts', 'warnetProducts'));
     }
 }

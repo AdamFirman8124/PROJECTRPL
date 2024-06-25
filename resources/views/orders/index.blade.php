@@ -2,36 +2,44 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Available Orders</h1>
+    <h1 class="mb-4">Order yang Tersedia</h1>
     @if ($purchases->isEmpty())
         <div class="alert alert-info">Tidak ada order yang tersedia saat ini.</div>
     @else
-        <div class="row">
-            @foreach ($purchases as $purchase)
-                <div class="col-md-4 mb-3">
-                    <div class="card h-100 shadow-sm hover-shadow">
-                        <div class="card-header bg-primary text-white text-center">
-                            <strong>NAMA: {{ strtoupper($purchase->user->name) }}</strong>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $purchase->product->name }}</h5>
-                            <p class="card-text">Jumlah: {{ $purchase->quantity }}</p>
-                            <p class="card-text">Total Harga: Rp{{ number_format($purchase->total_price, 2) }}</p>
-                            <p class="card-text">Catatan: {{ $purchase->notes ?? 'Tidak ada catatan' }}</p>
-                        </div>
-                        <div class="card-footer d-flex justify-content-center align-items-center" style="{{ $purchase->status == 'new' ? 'background-color: red;' : ($purchase->status == 'viewed' ? 'background-color: green;' : '') }}">
-                            <span class="badge" style="font-size: 1em;">{{ strtoupper($purchase->status) }}</span>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover shadow">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th>Nama Pelanggan</th>
+                        <th>Nama Produk</th>
+                        <th>Jumlah</th>
+                        <th>Total Harga</th>
+                        <th>Catatan</th>
+                        <th>Status</th>
+                        <th>Waktu Order</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($purchases as $purchase)
+                        <tr class="{{ $purchase->status == 'new' ? 'bg-danger text-white' : ($purchase->status == 'viewed' ? 'bg-success text-white' : 'bg-light') }}">
+                            <td>{{ strtoupper($purchase->user->name) }}</td>
+                            <td>{{ $purchase->product->name }}</td>
+                            <td>{{ $purchase->quantity }}</td>
+                            <td>Rp{{ number_format($purchase->total_price, 2, ',', '.') }}</td>
+                            <td>{{ $purchase->notes ?? 'Tidak ada catatan' }}</td>
+                            <td>{{ strtoupper($purchase->status) }}</td>
+                            <td>{{ $purchase->created_at->format('d-m-Y H:i') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     @endif
 </div>
 
 <script>
     $(document).ready(function() {
-        $('.card').hover(
+        $('table').hover(
             function() {
                 $(this).addClass('shadow-lg').css('cursor', 'pointer');
             }, function() {
@@ -44,13 +52,14 @@
             $.ajax({
                 url: '/orders/' + orderId + '/update',
                 type: 'POST',
-                data: { status: 'newStatus' }, // Sesuaikan dengan data yang dibutuhkan
+                data: { status: 'newStatus' },
                 success: function(response) {
-                    alert('Status updated!');
-                    location.reload(); // Atau update DOM tanpa reload
+                    alert('Status diperbarui!');
+                    location.reload();
                 }
             });
         });
     });
 </script>
 @endsection
+

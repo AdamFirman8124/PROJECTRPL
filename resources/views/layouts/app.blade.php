@@ -24,9 +24,6 @@
         </button>
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul class="navbar-nav centered-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">Home</a>
-                </li>
                 @if(auth()->check() && auth()->user()->role == 'admin')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('available.orders') }}">
