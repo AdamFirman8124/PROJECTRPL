@@ -6,7 +6,7 @@
     @if ($purchases->isEmpty())
         <div class="alert alert-info">Tidak ada order yang tersedia saat ini.</div>
     @else
-        <div class="table-responsive">
+        <div class="table-responsive" id="orders-table-container">
             <table class="table table-bordered table-striped table-hover shadow">
                 <thead class="bg-primary text-white">
                     <tr>
@@ -16,19 +16,19 @@
                         <th>Total Harga</th>
                         <th>Catatan</th>
                         <th>Status</th>
-                        <th>Waktu Order</th>
+                        <th>Hari Order</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="order-table-body">
                     @foreach ($purchases as $purchase)
-                        <tr class="{{ $purchase->status == 'new' ? 'bg-danger text-white' : ($purchase->status == 'viewed' ? 'bg-success text-white' : 'bg-light') }}">
+                        <tr class="{{ $purchase->status == 'new' ? 'bg-danger text-white' : ($purchase->status == 'viewed' ? 'bg-success text-white' : 'bg-light') }}" data-day="{{ $purchase->created_at->format('l') }}">
                             <td>{{ strtoupper($purchase->user->name) }}</td>
                             <td>{{ $purchase->product->name }}</td>
                             <td>{{ $purchase->quantity }}</td>
                             <td>Rp{{ number_format($purchase->total_price, 2, ',', '.') }}</td>
                             <td>{{ $purchase->notes ?? 'Tidak ada catatan' }}</td>
                             <td>{{ strtoupper($purchase->status) }}</td>
-                            <td>{{ $purchase->created_at->format('d-m-Y H:i') }}</td>
+                            <td>{{ $purchase->created_at->format('l') }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -62,4 +62,3 @@
     });
 </script>
 @endsection
-
