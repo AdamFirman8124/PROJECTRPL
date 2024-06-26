@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <div class="row justify-content-center align-items-center" style="height: 80vh;">
         <div class="col-md-8 text-center">
             <h1 class="display-4">Selamat Datang Para Gamer!</h1>
@@ -11,9 +11,18 @@
             <a class="btn btn-primary btn-lg" href="{{ route('game') }}" role="button">Lihat Paket Game</a>
         </div>
     </div>
-    <div class="row" style="min-height: 100vh;">
+    <div class="row mt-5 align-items-center">
+        <div class="col-md-8 text-center">
+            <h2>Mengapa Memilih Warnet Kami?</h2>
+            <p class="lead">Warnet kami menyediakan koneksi internet yang sangat cepat, suasana yang nyaman, serta perangkat gaming terkini yang akan meningkatkan kualitas bermain Anda. Kami juga menawarkan berbagai fasilitas pendukung untuk memastikan kenyamanan Anda saat bermain tanpa gangguan.</p>
+        </div>
+        <div class="col-md-4">
+            <img src="{{ asset('images/Orange and Black Grunge Game Mobile Video.gif') }}" alt="Game Gif 1" class="img-fluid" style="max-width: 90%;">
+        </div>
+    </div>
+    <div class="row mt-5" style="min-height: 100vh;">
         <div class="col-md-12">
-            <h3>Produk Warnet</h3>
+            <h3 class="mb-5">Produk Warnet</h3>
             <div class="d-flex flex-row overflow-hidden position-relative row-hover">
                 @if($warnetProducts->count() > 3)
                     <button class="btn btn-secondary position-absolute start-0 top-50 translate-middle-y scroll-btn" onclick="scrollLeftWarnet('warnetProducts')" style="z-index: 1;">&lt;</button>
@@ -34,8 +43,8 @@
                 @endif
             </div>
         </div>
-        <div class="col-md-12">
-            <h3>Produk Cafe</h3>
+        <div class="col-md-12 mt-5">
+            <h3 class="mb-5">Produk Cafe</h3>
             <div class="d-flex flex-row overflow-hidden position-relative row-hover">
                 @if($cafeProducts->count() > 3)
                     <button class="btn btn-secondary position-absolute start-0 top-50 translate-middle-y scroll-btn" onclick="scrollLeftCafe('cafeProducts')" style="z-index: 1;">&lt;</button>
@@ -52,7 +61,7 @@
                     @endforeach
                 </div>
                 @if($cafeProducts->count() > 3)
-                    <button class="btn btn-secondary position-absolute end-0 top-50 translate-middle-y scroll-btn" onclick="scrollRightCafe('cafeProducts')">&gt;</button>
+                    <button class="btn btn-secondary position-absolute end-0 top-50 translate-middle-y scroll-btn rounded-pill" onclick="scrollRightCafe('cafeProducts')">&gt;</button>
                 @endif
             </div>
         </div>
@@ -60,7 +69,7 @@
 </div>
 
 <footer class="text-center py-3 bg-dark text-white">
-    <p>&copy; {{ date('Y') }} PlayPal Games. Semua hak cipta dilindungi (TAPI BOONG).</p>
+    <p>&copy; {{ date('Y') }} PlayPal Games. Semua hak cipta dilindungi.</p>
     <p>Ikuti kami di <a href="https://twitter.com/playpal" class="text-primary">Twitter</a> dan <a href="https://facebook.com/playpal" class="text-primary">Facebook</a>!</p>
 </footer>
 
@@ -97,4 +106,5 @@
     });
 </script>
 @endsection
+
 
