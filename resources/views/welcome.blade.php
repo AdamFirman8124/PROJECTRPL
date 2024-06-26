@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center align-items-center" style="height: 80vh;">
-        <div class="col-md-8 text-center">
+        <div class="col-md-8 text-center slide-up">
             <h1 class="display-4">Selamat Datang Para Gamer!</h1>
             <p class="lead mt-3">Bergabunglah dengan kami dalam petualangan epik melintasi dunia game yang tak terbatas.</p>
             <hr class="my-4">
@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="row mt-5 align-items-center">
-        <div class="col-md-8 text-center">
+        <div class="col-md-8 text-center slide-up">
             <h2>Mengapa Memilih Warnet Kami?</h2>
             <p class="lead">Warnet kami menyediakan koneksi internet yang sangat cepat, suasana yang nyaman, serta perangkat gaming terkini yang akan meningkatkan kualitas bermain Anda. Kami juga menawarkan berbagai fasilitas pendukung untuk memastikan kenyamanan Anda saat bermain tanpa gangguan.</p>
         </div>
@@ -105,6 +105,21 @@
         });
     });
 </script>
+
+<style>
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+}
+</style>
 @endsection
-
-
